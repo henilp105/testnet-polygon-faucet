@@ -44,8 +44,16 @@ const ThemeSwitch = () => {
         </svg>
       </span>
 
-      
-       
+      <div
+        className={`mx-3 flex h-7 w-14 items-center rounded-full bg-gray-300 px-1 transition-colors duration-200 ${
+          theme === 'light' ? 'bg-cyan-400' : 'bg-gray-700'
+        }`}
+      >
+        <div
+          className={`h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-200 ${
+            theme === 'dark' && 'translate-x-7'
+          }`}
+        ></div>
       </div>
       <span className={`${theme === 'dark'? 'text-white':'text-gray-400'}`}>
         <svg
