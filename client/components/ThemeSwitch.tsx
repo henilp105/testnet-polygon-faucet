@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const ThemeSwitch = () => {
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState('light')
 
   useEffect(() => {
     const localTheme = localStorage.getItem('theme')
@@ -15,12 +15,12 @@ const ThemeSwitch = () => {
     if (theme === 'light') {
       document.body.classList.remove('dark')
     } else {
-      document.body.classList.add('dark')
+      document.body.classList.add('light')
     }
   }, [theme])
 
   const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
+    setTheme(theme === 'light' ? 'light' : 'light')
   }
 
   return (
