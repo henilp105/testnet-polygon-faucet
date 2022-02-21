@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.png" />
         <meta
           name="description"
-          content="Polygon Matic community run faucet, no ads, no BS."
+          content="Polygon Matic community run faucet."
         />
         <meta
           name="keywords"
@@ -23,28 +23,26 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="language" content="English" />
         <meta name="revisit-after" content="1 days" />
-        <meta name="author" content="Zayd" />
+        <meta name="author" content="Henil Panchal" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://matic.btn.sh/" />
         <meta property="og:title" content="Polygon Matic Community Faucet" />
         <meta
           property="og:description"
-          content="Polygon Matic community run faucet, no ads, no BS."
+          content="Polygon Matic community run faucet"
         />
         <meta property="og:image" content="/banner.png" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://matic.btn.sh/" />
         <meta
           property="twitter:title"
           content="Polygon Matic Community Faucet"
         />
         <meta
           property="twitter:description"
-          content="Polygon Matic community run faucet, no ads, no BS."
+          content="Polygon Matic community run faucet."
         />
         <meta property="twitter:image" content="/banner.png" />
       </Head>
-      <GithubCorner repository={'https://github.com/zaydme/polygon-faucet'} />
+      <GithubCorner repository={'https://github.com/henilp105/polygon-faucet'} />
       <ThemeSwitch />
       <ToastContainer hideProgressBar={true} />
       <main
@@ -58,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <div>
           Made with ♡ by
-          <a className="ml-1 text-purple-600 dark:text-lime-400">Zayd</a>
+          <a className="ml-1 text-purple-600 dark:text-lime-400">Henil Panchal</a>
         </div>
         <p className="flex">
           <span className="mr-1">Developer donations ♥</span>
