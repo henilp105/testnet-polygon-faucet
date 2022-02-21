@@ -90,7 +90,7 @@ export default function Home() {
         <title>Polygon Matic Community Faucet</title>
         <meta name="title" content="Polygon Matic Community Faucet" />
       </Head>
-      <div className="relative w-11/12 overflow-hidden whitespace-nowrap rounded-3xl border-2 border-slate-800 shadow-2xl shadow-slate-700 dark:shadow-black/50 md:w-96">
+      <div >
         <h1 className="flex flex-col items-center justify-center px-6 py-2 text-center text-sm font-light">
           <PolygonLogo className="h-14" />
           <span className="-mt-2 mb-8">Community run faucet</span>
