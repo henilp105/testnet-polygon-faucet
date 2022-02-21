@@ -1,5 +1,5 @@
 module.exports = {
-  faucetAddress: '0x3c53c9A2d0b69bCFbA423B97Feb9d07fE097d344',
-  hCaptchaSiteKey: '9bdebf08-4297-48dd-9306-38b6fd0218e5',
-  apiUrl: 'https://maticapi.btn.sh'
+  faucetAddress: '0x7857FbEAbEa5168F972d6041a017707e5af77195',
+  hCaptchaSiteKey: 'd4ad995c-ed4a-4c31-9a82-54c07332346b',
+  apiUrl: 'https://polygon-faucet-api.vercel.app'
 }
