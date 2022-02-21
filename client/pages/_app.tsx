@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="twitter:image" content="/banner.png" />
       </Head>
       <GithubCorner repository={'https://github.com/henilp105/polygon-faucet'} />
-    
+      <ThemeSwitch />
       <ToastContainer hideProgressBar={true} />
       <main
         className={`flex min-h-screen flex-col items-center justify-center bg-white py-2 dark:bg-slate-900 dark:text-white`}
