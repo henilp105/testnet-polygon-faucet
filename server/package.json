@@ -2,7 +2,7 @@
   "name": "faucet-api",
   "version": "0.0.1",
   "description": "Polygon matic faucet API",
-  "author": "Zaydme",
+  "author": "Henil Panchal",
   "license": "MIT",
   "main": "src/index.ts",
   "engines": {
