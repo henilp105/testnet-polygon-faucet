@@ -13,7 +13,7 @@ module.exports = {
     gasLimit: '314150',
     tokens: {
       matic: {
-        amount: 0.001,
+        amount: 0.005,
         maxbalance: 50000000000000000,
       },
     },
