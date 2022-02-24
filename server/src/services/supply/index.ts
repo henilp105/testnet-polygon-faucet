@@ -96,7 +96,15 @@ export default async function(fastify, opts) {
         balance: walletBalance,
         lastClaimed: new Date(),
       };
+const tx = await fastify.mongo.db.collection('transactions').insertOne({
+        hash,
+        address: fixedAddress,
+        amount: opts.config.network.tokens.matic.amount,
+        createdAt: new Date(),
+      });
 
+      return tx.ops[0];
+      
       fastify.mongo.db.collection('wallets').updateOne(
         { address: fixedAddress },
         {
@@ -108,14 +116,7 @@ export default async function(fastify, opts) {
         { upsert: true },
       );
 
-      const tx = await fastify.mongo.db.collection('transactions').insertOne({
-        hash,
-        address: fixedAddress,
-        amount: opts.config.network.tokens.matic.amount,
-        createdAt: new Date(),
-      });
-
-      return tx.ops[0];
+      
     },
   );
 }
