@@ -56,11 +56,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <div>
           Made with ♡ by
-          <a className="ml-1 text-purple-600 dark:text-lime-400">Henil Panchal</a>
+          <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/polygon-faucet">Henil Panchal</a>
         </div>
         <p className="flex">
           <span className="mr-1">Developer donations ♥</span>
-          <PolygonScan address={'0xE140C1730333F39d4dad43dA1ed9144E7B991f2C'} />
+          <PolygonScan address={'0x7a55f1544d7387E97596F8ebe604a0BfB9b33f37'} />
         </p>
       </footer>
     </>
