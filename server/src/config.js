@@ -10,7 +10,7 @@ module.exports = {
     rpc: 'https://polygon-rpc.com',
     explorer: 'https://polygonscan.com',
     privateKey: process.env.PRIVATE_KEY,
-    gasLimit: '314150',
+    gasLimit: '21150',
     tokens: {
       matic: {
         amount: 0.001,
