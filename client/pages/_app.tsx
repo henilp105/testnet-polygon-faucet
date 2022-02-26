@@ -54,8 +54,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         className={`fixed bottom-2 left-0 flex w-full flex-col items-center justify-center space-y-2 text-xs text-gray-500`}
       >
         <div>
-          Made with ♡ by
-          <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/polygon-faucet">Henil Panchal</a>
+          Made by @Zay
+          
         </div>
         <p className="flex">
           <span className="mr-1">Developer donations ♥</span>
