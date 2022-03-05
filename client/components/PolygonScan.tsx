@@ -9,7 +9,8 @@ const PolygonScan = ({
   tx?: string
   short?: boolean
 }) => {
-  return (<a
+  return (
+    <a
       href={`https://polygonscan.com/${tx ? 'tx' : 'address'}/${tx ? tx : address}`}
       target="_blank"
       rel="noopener noreferrer"
