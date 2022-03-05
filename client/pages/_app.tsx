@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ToastContainer hideProgressBar={true} />
       <main
         className={`flex min-h-screen flex-col items-center justify-center bg-white py-2 dark:bg-slate-900 dark:text-white`}
-      >
+      >  THIS IS A TEST NET FAUCET.  This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by Henil Panchal.
         <Component {...pageProps} />
       </main>
 
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         className={`fixed bottom-2 left-0 flex w-full flex-col items-center justify-center space-y-2 text-xs text-gray-500`}
       >
         <div>
-          Made with ♡ by
+         This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by 
           <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/polygon-faucet">Henil Panchal</a>
           
         </div>
