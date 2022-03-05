@@ -1,3 +1,4 @@
+https://rpc-mumbai.maticvigil.com/v1/258e1081aff2cd17260b42157a356464f1bcd20d
 module.exports = {
   mongo: {
     url: process.env.MONGO_URL,
@@ -7,7 +8,7 @@ module.exports = {
   },
   hCaptchaSecret: process.env.HCAPTCHA_SECRET,
   network: {
-    rpc: 'https://rpc-mumbai.maticvigil.com',
+    rpc: 'https://rpc-mumbai.maticvigil.com/v1/258e1081aff2cd17260b42157a356464f1bcd20d',
     explorer: 'https://mumbai.polygonscan.com',
     privateKey: process.env.PRIVATE_KEY,
     gasLimit: '21150',
