@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta property="twitter:image" content="/banner.png" />
       </Head>
-      <GithubCorner repository={'https://github.com/henilp105/polygon-faucet'} />
+      <GithubCorner repository={'https://github.com/henilp105/testnet-polygon-faucet/'} />
      
       <ToastContainer hideProgressBar={true} />
       <main
@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <div>
          This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by 
-          <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/polygon-faucet">Henil Panchal</a>
+          <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/testnet-polygon-faucet/">Henil Panchal</a>
           
         </div>
         <p className="flex">
