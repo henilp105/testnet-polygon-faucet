@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 
-const MATIC_NETWORK = 137
+const MATIC_NETWORK = 80001
 
 class AccountManager {
   connected: boolean = false
@@ -22,13 +22,13 @@ class AccountManager {
             infuraId: "4def552853ad41369ab1f27cd9dfdc01",
           },
           rpc: {
-            137: 'https://polygon-rpc.com',
+            80001: 'https://rpc-mumbai.maticvigil.com',
           },
         },
       }
 
       const web3Modal = new Web3Modal({
-        network: 'mainnet',
+        network: 'Mumbai',
         cacheProvider: true,
         providerOptions,
       })
