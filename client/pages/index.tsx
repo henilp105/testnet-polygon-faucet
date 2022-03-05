@@ -65,7 +65,7 @@ export default function Home() {
       .connect()
       .then((account) => {
         if (!account) {
-          toast.error(`Make sure you are on the Matic/Polygon network!`)
+          toast.error(`Make sure you are on the Mumbai Test network!`)
         } else {
           setAccount(account)
           console.log(account)
@@ -171,7 +171,7 @@ export default function Home() {
           )}
           {recentTxs !== null && recentTxs.length === 0 && (
             <span className="flex h-full w-full items-center justify-center">
-              No recent transactions
+              transactions are not monitored, request to use resources judiciously.
             </span>
           )}
         </ul>
