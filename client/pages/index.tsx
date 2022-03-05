@@ -87,13 +87,13 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Polygon Matic Community Faucet</title>
-        <meta name="title" content="Polygon Matic Community Faucet" />
+        <title>Polygon Matic Community Testnet Faucet</title>
+        <meta name="title" content="Polygon Matic Testnet Community Faucet" />
       </Head>
       <div >
         <h1 className="flex flex-col items-center justify-center px-6 py-2 text-center text-sm font-light">
           <PolygonLogo className="h-14" />
-          <span className="-mt-2 mb-8">Community run faucet</span>
+          <span className="-mt-2 mb-8">Community run Testnet faucet</span>
           <code className="text-xs">
             Faucet Balance: {faucetBalance}{' '}
             <span className="text-[#7B3FE4]">MATIC</span>
@@ -142,7 +142,7 @@ export default function Home() {
           ref={captchaRef}
           size="invisible"
         />
-        <ul className="no-scrollbar relative h-24 overflow-y-scroll px-6">
+        <ul className="scrollbar relative h-24 overflow-y-scroll px-6">
           {recentTxs?.map((tx) => (
             <li
               key={tx.hash}
