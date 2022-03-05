@@ -19,7 +19,7 @@ class AccountManager {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            infuraId: "4def552853ad41369ab1f27cd9dfdc01",
+            infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
           },
           rpc: {
             80001: 'https://rpc-mumbai.maticvigil.com',
