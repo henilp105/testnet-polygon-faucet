@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         className={`flex min-h-screen flex-col items-center justify-center bg-white py-2 dark:bg-slate-900 dark:text-white`}
       >  THIS IS A TEST NET FAUCET. 
         This test net Faucet is Based on Mainnet Faucet by @Zaydme and is Ported by Henil Panchal.
-        CLAIM 0.5 Test Matic every 12 hours. 
+        
         <Component {...pageProps} />
       </main>
 
