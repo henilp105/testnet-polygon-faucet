@@ -7,14 +7,14 @@ module.exports = {
   },
   hCaptchaSecret: process.env.HCAPTCHA_SECRET,
   network: {
-    rpc: 'https://polygon-rpc.com',
-    explorer: 'https://polygonscan.com',
+    rpc: 'https://rpc-mumbai.maticvigil.com',
+    explorer: 'https://mumbai.polygonscan.com',
     privateKey: process.env.PRIVATE_KEY,
     gasLimit: '21150',
     tokens: {
       matic: {
-        amount: 0.001,
-        maxbalance: 50000000000000000,
+        amount: 0.4,
+        maxbalance: 50000000000000000000,
       },
     },
   },
