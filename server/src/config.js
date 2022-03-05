@@ -1,4 +1,3 @@
-https://rpc-mumbai.maticvigil.com/v1/258e1081aff2cd17260b42157a356464f1bcd20d
 module.exports = {
   mongo: {
     url: process.env.MONGO_URL,
