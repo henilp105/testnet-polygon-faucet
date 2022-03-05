@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ToastContainer hideProgressBar={true} />
       <main
         className={`flex min-h-screen flex-col items-center justify-center bg-white py-2 dark:bg-slate-900 dark:text-white`}
-      >  THIS IS A TEST NET FAUCET. <br> This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by Henil Panchal.
+      >  THIS IS A TEST NET FAUCET. \n This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by Henil Panchal.
         <Component {...pageProps} />
       </main>
 
