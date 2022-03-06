@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <footer
         className={`fixed bottom-2 left-0 flex w-full flex-col items-center justify-center space-y-2 text-xs text-gray-500`}
       >
-        <div>If You Require More Test Matic, Dm me With your address and amount on Polyworld#6961 (Discord).</div><div>
+       <div>
          This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by 
           <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/testnet-polygon-faucet/">Henil Panchal</a>
           
