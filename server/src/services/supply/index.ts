@@ -64,16 +64,7 @@ export default async function(fastify, opts) {
             $gte: new Date(Date.now() - opts.config.timeouts.claimTimeout),
           },
         });
-if (walletExists) {
-        throw new Error(
-          `You have already claimed in the last 12 hours. Please try again ${moment(
-            moment(walletExists.lastClaimed).add(
-              opts.config.timeouts.claimTimeout,
-              'ms',
-            ),
-          ).fromNow()}.`,
-        );
-      }
+
 
       const walletBalance = await fastify.getEthBalance(fixedAddress);
       if (walletBalance >= opts.config.network.tokens.matic.maxbalance) {
