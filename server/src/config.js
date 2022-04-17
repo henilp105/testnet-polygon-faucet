@@ -7,7 +7,7 @@ module.exports = {
   },
   hCaptchaSecret: process.env.HCAPTCHA_SECRET,
   network: {
-    rpc: 'https://rpc-mumbai.maticvigil.com',
+    rpc: process.env.RPC, // switched to Alchemy for better Performance
     explorer: 'https://mumbai.polygonscan.com',
     privateKey: process.env.PRIVATE_KEY,
     gasLimit: '21150',
