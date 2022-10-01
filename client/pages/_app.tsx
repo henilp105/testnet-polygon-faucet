@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         className={`fixed bottom-2 left-0 flex w-full flex-col items-center justify-center space-y-2 text-xs text-gray-500`}
       >
        <div>
-         Tired of Daily hassle of Going to Faucets for Test matic !  Please Fill the <a href="https://bit.ly/testmatic">form</form> to get the Daily faucet Drop.
+         Tired of Daily hassle of Going to Faucets for Test matic !  Please Fill the <a href="https://bit.ly/testmatic">form</a> to get the Daily faucet Drop.
          This test net Faucet is  Based on Mainnet Faucet by @Zaydme and is Ported by 
           <a className="ml-1 text-purple-600 dark:text-lime-400" href ="https://github.com/henilp105/testnet-polygon-faucet/">Henil Panchal</a>
           
