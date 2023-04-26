@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "src/index.ts",
   "engines": {
-    "node": "12.x"
+    "node": "18.x"
   },
   "dependencies": {
     "@types/node": "^12.7.5",
