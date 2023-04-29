@@ -22,7 +22,7 @@ export default async function(fastify, opts) {
         await visitors.updateOne(
           { ipAddress },
           {
-            $addToSet: {
+            $set: {
               UA: request.headers['user-agent'],
               language: request.headers['accept-language'],
               platform: request.headers['user-agent'].split('(')[1].split(';')[0],
