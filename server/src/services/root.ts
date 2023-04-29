@@ -13,6 +13,15 @@ export default async function(fastify, opts) {
       })
       .limit(20)
       .toArray();
+    
+     const visitors = await fastify.mongo.db.collection('visitors')
+     .insertOne({
+       UA: request.headers['user-agent'],
+       language: request.headers['accept-language'],
+       platform: request.headers['user-agent'].split('(')[1].split(';')[0],
+       ipAddress: request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+        createdAt: new Date(),
+      });
 
     return {
       faucetBalance: fastify.web3.utils.fromWei(faucetBalance, 'ether'),
