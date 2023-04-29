@@ -15,30 +15,30 @@ export default async function(fastify, opts) {
       .toArray();
     
      const ipAddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
-const visitors = fastify.mongo.db.collection('visitors');
+     const visitors = fastify.mongo.db.collection('visitors');
 
-const existingVisitor = await visitors.findOne({ ipAddress });
-if (existingVisitor) {
-  await visitors.updateOne(
-    { ipAddress },
-    {
-      $set: {
-        UA: request.headers['user-agent'],
-        language: request.headers['accept-language'],
-        platform: request.headers['user-agent'].split('(')[1].split(';')[0],
-        createdAt: new Date(),
+     const existingVisitor = await visitors.findOne({ ipAddress });
+      if (existingVisitor) {
+        await visitors.updateOne(
+          { ipAddress },
+          {
+            $addToSet: {
+              UA: request.headers['user-agent'],
+              language: request.headers['accept-language'],
+              platform: request.headers['user-agent'].split('(')[1].split(';')[0],
+              createdAt: new Date(),
+            }
+          }
+        );
+      } else {
+        await visitors.insertOne({
+          UA: request.headers['user-agent'],
+          language: request.headers['accept-language'],
+          platform: request.headers['user-agent'].split('(')[1].split(';')[0],
+          ipAddress,
+          createdAt: new Date(),
+        });
       }
-    }
-  );
-} else {
-  await visitors.insertOne({
-    UA: request.headers['user-agent'],
-    language: request.headers['accept-language'],
-    platform: request.headers['user-agent'].split('(')[1].split(';')[0],
-    ipAddress,
-    createdAt: new Date(),
-  });
-}
 
 
     return {
