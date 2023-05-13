@@ -1,0 +1,7 @@
+pymongo
+flask==2.2.4
+python-dateutil
+python-dotenv
+web3
+requests
+flask_cors
