@@ -1,5 +1,14 @@
 from app import app
-from config import db, w3, getbalance, wallet_address, private_key, hCaptchaSecret, fixaddress, gettransactions
+from config import (
+    db,
+    w3,
+    getbalance,
+    wallet_address,
+    private_key,
+    hCaptchaSecret,
+    fixaddress,
+    gettransactions,
+)
 from web3 import Web3
 from flask import jsonify, request
 from web3.gas_strategies.rpc import rpc_gas_price_strategy
@@ -11,6 +20,7 @@ amount = 0.02
 claimTimeout = 43200
 
 params = {"secret": hCaptchaSecret}
+# params = {"secret": "0x0000000000000000000000000000000000000000"}
 
 headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
@@ -54,46 +64,15 @@ def info():
         }
     )
 
-
-@app.route("/supply/<requestaddress>", methods=["POST"])
-def sendtokens(requestaddress):
-    ipAddress = request.headers["x-forwarded-for"]
-    params["response"] = request.form.get("hCaptchaResponse")
-    response = requests.post(
-        "https://hcaptcha.com/siteverify", data=params, headers=headers
-    )
-    success = response.json()["success"]
-
-    if success:
-        return jsonify(
-            {
-                "error": "Internal Server Error",
-                "statusCode": 500,
-                "message": "hCaptcha failed",
-            }
-        ),500
-
-    isvalid = fixaddress(requestaddress)
-
-    if isvalid[1] == 1:
-        requestaddress = isvalid[0]
-    else:
-        return jsonify(
-            {
-                "error": "Internal Server Error",
-                "statusCode": 500,
-                "message": "Invalid Address",
-            }
-        ),500
-
-    wallet_exists = db.wallets.find_one(
+def wallet_exists(requestaddress,ipAddress) -> bool:
+    wallet_exist = db.wallets.find_one(
         {
             "$or": [{"address": requestaddress}, {"ipAddresses": {"$in": [ipAddress]}}],
             "lastClaimed": {"$gte": datetime.now() - timedelta(seconds=claimTimeout)},
         }
     )
 
-    if wallet_exists:
+    if wallet_exist:
         time_diff = datetime.now() - wallet_exists["lastClaimed"]
         time_in_sec = abs(int(time_diff.total_seconds()))
         message = "You have already claimed in the last 12 hours."
@@ -106,75 +85,124 @@ def sendtokens(requestaddress):
         if time_in_sec < 3600 and time_in_sec % 3600 != 0:
             message += f"Please try again in {int(time_in_sec/60)}."
 
-        return jsonify(
-            {"statusCode": 500, "message": message, "error": "Internal Server Error"}
-        ),500
-
-    recipient_balance = getbalance(requestaddress)
-    if recipient_balance > max_balance* 100:  #fix this 
-        return jsonify(
-            {
-                "statusCode": 500,
-                "message": f"You are way too rich to claim tokens. Your balance is {recipient_balance} MATIC.",
-                "error": "Internal Server Error",
-            }
-        ),500
-    w3.eth.set_gas_price_strategy(rpc_gas_price_strategy)
-    tx_create = w3.eth.account.sign_transaction(
-    {
-        'nonce': w3.eth.get_transaction_count(wallet_address),
-        'gasPrice': w3.eth.generate_gas_price(),
-        'gas': 21000,
-        'to': requestaddress,
-        'value': w3.to_wei(amount, 'ether'),
-    },
-    private_key,
-    )
+        return (True, message)
     
-    transaction = {
+    return (False, "Wallet does not exist")
+
+def hcaptcha_validate(response) -> bool:
+    params["response"] = response
+    response = requests.post(
+        "https://hcaptcha.com/siteverify", data=params, headers=headers
+    )
+    success = response.json()["success"]
+    return success
+
+
+def sendTransaction(requestaddress):
+    nonce = w3.eth.get_transaction_count(wallet_address)
+    txn = {
+    'type': '0x2',
+    'nonce': nonce,
     'from': wallet_address,
     'to': requestaddress,
-    'value': w3.to_wei(amount, 'ether'),
-    'nonce': w3.eth.get_transaction_count(wallet_address),
-    'gas': 21000,
-    'maxFeePerGas': 2000000000,
-    'maxPriorityFeePerGas': 1000000000,
+    'value': w3.to_wei(20, 'ether'),
+    'maxFeePerGas': w3.to_wei('250', 'gwei'),
+    'maxPriorityFeePerGas': w3.to_wei('3', 'gwei'),
+    'chainId': 80001
     }
+    gas = w3.eth.estimate_gas(txn)
+    txn['gas'] = gas
+    signed_tx = w3.eth.account.sign_transaction(txn, private_key)
+    tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+    return str(w3.to_hex(tx_hash))
 
-    signed = w3.eth.account.sign_transaction(transaction, private_key)
 
-    # 3. Send the signed transaction
-    tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
-    tx = w3.eth.get_transaction(tx_hash)
-    print(tx)
+@app.route("/supply/<requestaddress>", methods=["POST"])
+def sendtokens(requestaddress):
+    ipAddress = request.headers["x-forwarded-for"]
+    hcaptcha_response = request.form.get("hCaptchaResponse")
+    ishcaptchavalid = hcaptcha_validate(hcaptcha_response)
+
+    if not ishcaptchavalid:
+        return (
+            jsonify(
+                {
+                    "error": "Internal Server Error",
+                    "statusCode": 500,
+                    "message": "hCaptcha failed",
+                }
+            ),
+            500,
+        )
+
+    isvalid = fixaddress(requestaddress)
+    response = wallet_exists(requestaddress,ipAddress)
+    recipient_balance = getbalance(requestaddress)
+
+    if isvalid[1] == 1:
+        requestaddress = isvalid[0]
+    else:
+        return (
+            jsonify(
+                {
+                    "error": "Internal Server Error",
+                    "statusCode": 500,
+                    "message": "Invalid Address",
+                }
+            ),
+            500,
+        )
+    
+    if response[0]:
+        return (
+            jsonify(
+                {
+                    "statusCode": 500,
+                    "message": response[1],
+                    "error": "Internal Server Error",
+                }
+            ),
+            500,
+        )
+
+    if recipient_balance > max_balance:
+        return (
+            jsonify(
+                {
+                    "statusCode": 500,
+                    "message": f"You are way too rich to claim tokens. Your balance is {recipient_balance} MATIC.",
+                    "error": "Internal Server Error",
+                }
+            ),
+            500,
+        )
+    
     try:
-        # Send the signed transaction
-        tx_hash = w3.eth.send_raw_transaction(tx_create.rawTransaction)
-
-        # Wait for the transaction to be mined and get the receipt
-        tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-        
-        txn_hash = tx_receipt.transactionHash.hex()
-
-        print(f"Transaction receipt: {txn_hash}")
+        txn_hash = sendTransaction(requestaddress)
     except Exception as e:
         if "insufficient funds" in str(e).lower():
-            return jsonify(
-                {
-                    "statusCode": 500,
-                    "message": "Faucet balance is too low, please try again later or consider donating (please!)",
-                    "error": "Internal Server Error",
-                }
-            ),500
+            return (
+                jsonify(
+                    {
+                        "statusCode": 500,
+                        "message": "Faucet balance is too low, please try again later or consider donating (please!)",
+                        "error": "Internal Server Error",
+                    }
+                ),
+                500,
+            )
         else:
             print(str(e))
-            return jsonify(
-                {
-                    "statusCode": 500,
-                    "message": "Internal Server Error",
-                    "error": "Internal Server Error",
-                }
-            ),500
+            return (
+                jsonify(
+                    {
+                        "statusCode": 500,
+                        "message": "Internal Server Error",
+                        "error": "Internal Server Error",
+                    }
+                ),
+                500,
+            )
 
     txn_data = {
         "$set": requestaddress,
@@ -192,4 +220,4 @@ def sendtokens(requestaddress):
     }
 
     db.transactions.insert_one(txn_doc)
-    return jsonify(txn_doc),200
+    return jsonify(txn_doc), 200
