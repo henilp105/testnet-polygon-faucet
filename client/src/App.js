@@ -12,10 +12,7 @@ import Button from "react-bootstrap/Button";
 import claimFaucet from "./components/faucet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { Web3Button, Web3NetworkSwitch } from "@web3modal/react";
-// import "./components/auth.js";
 import "./App.css";
-// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
@@ -66,7 +63,6 @@ function App() {
           console.error("Error:", error.message);
           console.log(error);
           toast.error(error.response.data.message, toast_css);
-
         });
       setIsSending(false);
     }
@@ -142,7 +138,7 @@ function App() {
               onChange={(e) => setAccount(e.target.value)}
             ></input>
             <Button type="primary" className="btn" onClick={onLoad}>
-            {isSending? "Sending":"Send MATIC"} 
+              {isSending ? "Sending" : "Send MATIC"}
             </Button>
             <HCaptcha
               sitekey={config.hCaptchaSiteKey}
@@ -156,7 +152,7 @@ function App() {
             <div className="txn" style={{ fontSize: "12px" }}>
               {recentTxs.length > 0 ? (
                 recentTxs.map((txn) => (
-                  <p>
+                  <p key={txn.hash}>
                     <FormattedDate date={txn.createdAt} />{" "}
                     <span className="data">to:</span>
                     <PolygonScan address={txn.address} short={true} />{" "}
