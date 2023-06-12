@@ -78,14 +78,14 @@ def wallet_exists(requestaddress, ipAddress) -> bool:
         time_diff = datetime.now() - wallet_exist["lastClaimed"]
         time_in_sec = abs(int(time_diff.total_seconds()))
         message = "You have already claimed in the last 12 hours."
-        if time_in_sec > 3600:
+        if time_in_sec >= 3600:
             message += f"Please try again in {int(time_in_sec/3600)} hours"
 
         if time_in_sec % 3600 != 0 and time_in_sec > 3600:
-            message += f" and {int((time_in_sec%3600)/60)}."
+            message += f" and {int((time_in_sec%3600)/60)} minutes."
 
-        if time_in_sec < 3600 and time_in_sec % 3600 != 0:
-            message += f"Please try again in {int(time_in_sec/60)}."
+        if time_in_sec < 3600:
+            message += f"Please try again in {int(time_in_sec/60)} minutes."
 
         return (True, message)
 
