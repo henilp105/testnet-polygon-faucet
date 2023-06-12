@@ -17,7 +17,6 @@ try:
     hCaptchaSecret = os.environ["hCaptchaSecret"]
     rpc = os.environ["RPC"]
     client = MongoClient(mongo_uri)
-    # print("Loaded .env")
 except KeyError as err:
     print("Key not found in .env")
 
