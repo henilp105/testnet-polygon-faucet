@@ -64,7 +64,9 @@ def info():
         }
     )
 
-def wallet_exists(requestaddress,ipAddress) -> bool:
+
+def wallet_exists(requestaddress, ipAddress) -> bool:
+    requestaddress = requestaddress.lower()
     wallet_exist = db.wallets.find_one(
         {
             "$or": [{"address": requestaddress}, {"ipAddresses": {"$in": [ipAddress]}}],
@@ -73,7 +75,7 @@ def wallet_exists(requestaddress,ipAddress) -> bool:
     )
 
     if wallet_exist:
-        time_diff = datetime.now() - wallet_exists["lastClaimed"]
+        time_diff = datetime.now() - wallet_exist["lastClaimed"]
         time_in_sec = abs(int(time_diff.total_seconds()))
         message = "You have already claimed in the last 12 hours."
         if time_in_sec > 3600:
@@ -86,11 +88,12 @@ def wallet_exists(requestaddress,ipAddress) -> bool:
             message += f"Please try again in {int(time_in_sec/60)}."
 
         return (True, message)
-    
+
     return (False, "Wallet does not exist")
 
-def hcaptcha_validate(response) -> bool:
-    params["response"] = response
+
+def hcaptcha_validate(captcha) -> bool:
+    params["response"] = captcha
     response = requests.post(
         "https://hcaptcha.com/siteverify", data=params, headers=headers
     )
@@ -101,17 +104,17 @@ def hcaptcha_validate(response) -> bool:
 def sendTransaction(requestaddress):
     nonce = w3.eth.get_transaction_count(wallet_address)
     txn = {
-    'type': '0x2',
-    'nonce': nonce,
-    'from': wallet_address,
-    'to': requestaddress,
-    'value': w3.to_wei(20, 'ether'),
-    'maxFeePerGas': w3.to_wei('250', 'gwei'),
-    'maxPriorityFeePerGas': w3.to_wei('3', 'gwei'),
-    'chainId': 80001
+        "type": "0x2",
+        "nonce": nonce,
+        "from": wallet_address,
+        "to": requestaddress,
+        "value": w3.to_wei(0.02, "ether"),
+        "maxFeePerGas": w3.to_wei("250", "gwei"),
+        "maxPriorityFeePerGas": w3.to_wei("3", "gwei"),
+        "chainId": 80001,
     }
     gas = w3.eth.estimate_gas(txn)
-    txn['gas'] = gas
+    txn["gas"] = gas
     signed_tx = w3.eth.account.sign_transaction(txn, private_key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
     return str(w3.to_hex(tx_hash))
@@ -120,7 +123,7 @@ def sendTransaction(requestaddress):
 @app.route("/supply/<requestaddress>", methods=["POST"])
 def sendtokens(requestaddress):
     ipAddress = request.headers["x-forwarded-for"]
-    hcaptcha_response = request.form.get("hCaptchaResponse")
+    hcaptcha_response = request.json.get("hCaptchaResponse")
     ishcaptchavalid = hcaptcha_validate(hcaptcha_response)
 
     if not ishcaptchavalid:
@@ -136,8 +139,6 @@ def sendtokens(requestaddress):
         )
 
     isvalid = fixaddress(requestaddress)
-    response = wallet_exists(requestaddress,ipAddress)
-    recipient_balance = getbalance(requestaddress)
 
     if isvalid[1] == 1:
         requestaddress = isvalid[0]
@@ -152,7 +153,10 @@ def sendtokens(requestaddress):
             ),
             500,
         )
-    
+
+    response = wallet_exists(requestaddress, ipAddress)
+    recipient_balance = getbalance(requestaddress)
+
     if response[0]:
         return (
             jsonify(
@@ -176,7 +180,7 @@ def sendtokens(requestaddress):
             ),
             500,
         )
-    
+
     try:
         txn_hash = sendTransaction(requestaddress)
     except Exception as e:
@@ -205,7 +209,8 @@ def sendtokens(requestaddress):
             )
 
     txn_data = {
-        "$set": requestaddress,
+        "$set": {"address": requestaddress},
+        "$set": {"lastClaimed": datetime.now()},
         "$addToSet": {"ipAddresses": ipAddress},
         "$push": {"transactionHashes": txn_hash},
         "$inc": {"claimCount": 1},
@@ -220,4 +225,15 @@ def sendtokens(requestaddress):
     }
 
     db.transactions.insert_one(txn_doc)
-    return jsonify(txn_doc), 200
+    print(txn_doc)
+    return (
+        jsonify(
+            {
+                "hash": str(txn_hash),
+                "address": requestaddress,
+                "amount": amount,
+                "createdAt": datetime.now(),
+            }
+        ),
+        200,
+    )
