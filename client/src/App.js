@@ -133,7 +133,6 @@ function App() {
               <PolygonScan address={config.faucetAddress} />
             </div>
             <br />
-            {/* button for requesting testnet tokens. */}
             <input
               type="text"
               className="btn"
