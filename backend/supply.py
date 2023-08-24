@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 import requests
 
 max_balance = 5
-amount = 0.02
+amount = 0.2
 claimTimeout = 43200
 
 params = {"secret": hCaptchaSecret}
@@ -108,7 +108,7 @@ def sendTransaction(requestaddress):
         "nonce": nonce,
         "from": wallet_address,
         "to": requestaddress,
-        "value": w3.to_wei(0.02, "ether"),
+        "value": w3.to_wei(amount, "ether"),
         "maxFeePerGas": w3.to_wei("250", "gwei"),
         "maxPriorityFeePerGas": w3.to_wei("3", "gwei"),
         "chainId": 80001,
