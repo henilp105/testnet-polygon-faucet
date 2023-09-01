@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 import requests
 
 max_balance = 5
-amount = 0.2
+amount = 0.5
 claimTimeout = 43200
 
 params = {"secret": hCaptchaSecret}
@@ -101,7 +101,7 @@ def hcaptcha_validate(captcha) -> bool:
     return success
 
 
-def sendTransaction(requestaddress):
+def sendTransaction(requestaddress,wallet_address,amount,private_key):
     nonce = w3.eth.get_transaction_count(wallet_address)
     txn = {
         "type": "0x2",
