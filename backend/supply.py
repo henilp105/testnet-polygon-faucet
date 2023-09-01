@@ -101,7 +101,7 @@ def hcaptcha_validate(captcha) -> bool:
     return success
 
 
-def sendTransaction(requestaddress,wallet_address,amount,private_key):
+def sendTransaction(requestaddress):
     nonce = w3.eth.get_transaction_count(wallet_address)
     txn = {
         "type": "0x2",
